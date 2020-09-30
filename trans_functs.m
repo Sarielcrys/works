@@ -10,7 +10,6 @@ phase_rt = (-pi:pi/100:3*pi);                                               % �
 % coupler 1 
 k1 = sqrt(0.2);                                                             % 定义耦合系数k1
 t1 = sqrt(1-(k1)^2);                                                        % 耦合无损耗情况下，定义传输系数t1
-M1 = [t1,-1i*k1; -1i*k1,t1];                                                % 传输矩阵
 
 % ring
 R = 8*1e-6;                                                                 % 定义环腔半径
@@ -28,7 +27,6 @@ t2 = sqrt(1-(k2)^2);                                                        % �
 % response
 Through = zeros(1,length(phase_rt));                                        % 直通端矩阵
 Drop = zeros(1,length(phase_rt));                                           % 下载端矩阵
-
 
 for ii = 1:length(phase_rt)
 

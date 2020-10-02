@@ -1,42 +1,46 @@
+% Power spectral response of APMR
+% Source code by Nuo Chen
+% 2020/10/02
+
 clear all;
 close all;
 
-phase_rt = (-0.3*pi:pi/200:0.3*pi);                                         % ±éÀú»·³ÌÏàÒÆ
+phase_rt = (-0.3*pi:pi/200:0.3*pi);                                         % éå†ç¯ç¨‹ç›¸ç§»
 
 % coupler 1 
-t1 = 0.95;                                                                  % ñîºÏÎŞËğºÄÇé¿öÏÂ£¬¶¨Òå´«ÊäÏµÊıt1
-k1 = sqrt(1-t1^2);                                                          % ¶¨ÒåñîºÏÏµÊık1
+t1 = 0.95;                                                                  % è€¦åˆæ— æŸè€—æƒ…å†µä¸‹ï¼Œå®šä¹‰ä¼ è¾“ç³»æ•°t1
+k1 = sqrt(1-t1^2);                                                          % å®šä¹‰è€¦åˆç³»æ•°k1
 
 % ring
-R = 8*1e-6;                                                                 % ¶¨Òå»·Ç»°ë¾¶
-L_rt = 2*pi*R;                                                              % Çó»·³Ì³¤¶È
-a = (0.92:0.03:0.98);                                                       % »·³ÌÍ¸¹ıÏµÊıa
+R = 8*1e-6;                                                                 % å®šä¹‰ç¯è…”åŠå¾„
+L_rt = 2*pi*R;                                                              % æ±‚ç¯ç¨‹é•¿åº¦
+a = (0.92:0.03:0.98);                                                       % ç¯ç¨‹é€è¿‡ç³»æ•°a
 
 % response
 Through = zeros(1,length(phase_rt));
 alpha = zeros(1,length(a));
 
-%»æÍ¼
+%ç»˜å›¾
 figure(1);  
 box on;
 
 for ee = 1:length(alpha)  
     for ii = 1:length(phase_rt)
-        Ht = (t1-a(ee)*exp(-1i*phase_rt(ii)))/(1-t1*a(ee)*exp(-1i*phase_rt(ii)));   % ´«µİº¯Êı·¨
+        Ht = (t1-a(ee)*exp(-1i*phase_rt(ii)))/(1-t1*a(ee)*exp(-1i*phase_rt(ii)));   % ä¼ é€’å‡½æ•°æ³•
 
-        Tt = (abs(Ht))^2;                                                   % ¹¦ÂÊ¹âÆ×ÏìÓ¦
+        Tt = (abs(Ht))^2;                                                   % åŠŸç‡å…‰è°±å“åº”
         Through(ii) = Tt;            
     end
     plot(phase_rt,Through);
     hold on;
 end
 
-xlabel('»·³ÌÏàÎ»Ê§Ğ³Á¿(¦¤¦Õrt)');
+xlabel('ç¯ç¨‹ç›¸ä½å¤±è°é‡(Î”Ï†rt)');
 set(gca,'XTick',(-0.3*pi:0.15*pi:0.3*pi));
-set(gca,'XtickLabel',{'-0.3¦Ğ','-0.15¦Ğ','0','0.15¦Ğ','0.3¦Ğ'});
-ylabel('Í¸ÉäÆ×(Tap)');
+set(gca,'XtickLabel',{'-0.3Ï€','-0.15Ï€','0','0.15Ï€','0.3Ï€'});
+ylabel('é€å°„è°±(Tap)');
 
-title('APMRÍ¸ÉäÆ×');                                                         % ÉèÖÃÍ¼±íÃû³Æ
+title('APMRé€å°„è°±');                                                         % è®¾ç½®å›¾è¡¨åç§°
 legend({'overcoupling,t=0.92','critical coupling,t=a=0.95','undercoupling,t=0.98'},'location','southeast');
 
 

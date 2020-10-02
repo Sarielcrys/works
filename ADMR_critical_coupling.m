@@ -1,43 +1,47 @@
+% Power spectral response of critical coupling ADMR, simulated on Matlab
+% Source code by Nuo Chen
+% 2020/10/02
+
 clear all;
 close all;
 
-phase_rt = (-pi:pi/100:3*pi);                                               % ±éÀú»·³ÌÏàÒÆ
+phase_rt = (-pi:pi/100:3*pi);                                               % éå†ç¯ç¨‹ç›¸ç§»
 
 % coupler 1 
-k1 = sqrt(0.2);                                                             % ¶¨ÒåñîºÏÏµÊık1
-t1 = sqrt(1-(k1)^2);                                                        % ñîºÏÎŞËğºÄÇé¿öÏÂ£¬¶¨Òå´«ÊäÏµÊıt1
+k1 = sqrt(0.2);                                                             % å®šä¹‰è€¦åˆç³»æ•°k1
+t1 = sqrt(1-(k1)^2);                                                        % è€¦åˆæ— æŸè€—æƒ…å†µä¸‹ï¼Œå®šä¹‰ä¼ è¾“ç³»æ•°t1
 
 % ring
-R = 8*1e-6;                                                                 % ¶¨Òå»·Ç»°ë¾¶
-L_rt = 2*pi*R;                                                              % Çó»·³Ì³¤¶È
-a = 0.98;                                                                   % »·³ÌÍ¸¹ıÏµÊıa
+R = 8*1e-6;                                                                 % å®šä¹‰ç¯è…”åŠå¾„
+L_rt = 2*pi*R;                                                              % æ±‚ç¯ç¨‹é•¿åº¦
+a = 0.98;                                                                   % ç¯ç¨‹é€è¿‡ç³»æ•°a
 
 % coupler 2
-% k2 = sqrt(0.2);                                                           % ¶¨ÒåñîºÏÏµÊık2
-% t2 = sqrt(1-(k2)^2);                                                      % ñîºÏÎŞËğºÄÇé¿öÏÂ£¬¶¨Òå´«ÊäÏµÊıt2
+% k2 = sqrt(0.2);                                                           % å®šä¹‰è€¦åˆç³»æ•°k2
+% t2 = sqrt(1-(k2)^2);                                                      % è€¦åˆæ— æŸè€—æƒ…å†µä¸‹ï¼Œå®šä¹‰ä¼ è¾“ç³»æ•°t2
 
 %coupler 2 for critical coulping
-t2 = t1/a;                                                                  % ¶¨ÒåñîºÏÏµÊık2,ÁÙ½çñîºÏÌõ¼şÏÂ
-k2 = sqrt(1-(k1)^2);                                                        % ñîºÏÎŞËğºÄÇé¿öÏÂ£¬¶¨Òå´«ÊäÏµÊıt2
+t2 = t1/a;                                                                  % å®šä¹‰è€¦åˆç³»æ•°k2,ä¸´ç•Œè€¦åˆæ¡ä»¶ä¸‹
+k2 = sqrt(1-(k1)^2);                                                        % è€¦åˆæ— æŸè€—æƒ…å†µä¸‹ï¼Œå®šä¹‰ä¼ è¾“ç³»æ•°t2
 
 % response
-Through = zeros(1,length(phase_rt));                                        % Ö±Í¨¶Ë¾ØÕó
-Drop = zeros(1,length(phase_rt));                                           % ÏÂÔØ¶Ë¾ØÕó
+Through = zeros(1,length(phase_rt));                                        % ç›´é€šç«¯çŸ©é˜µ
+Drop = zeros(1,length(phase_rt));                                           % ä¸‹è½½ç«¯çŸ©é˜µ
 
 
 for ii = 1:length(phase_rt)
 
-    Ht = (t1-t2*a*exp(-1i*phase_rt(ii)))/(1-t1*t2*a*exp(-1i*phase_rt(ii))); %´«µİº¯Êı·¨
+    Ht = (t1-t2*a*exp(-1i*phase_rt(ii)))/(1-t1*t2*a*exp(-1i*phase_rt(ii))); %ä¼ é€’å‡½æ•°æ³•
     Hd = -(k1*k2*sqrt(a)*exp(-1i*phase_rt(ii)/2))/(1-t1*t2*a*exp(-1i*phase_rt(ii)));    
 
-    Tt = (abs(Ht))^2;                                                       % ¹¦ÂÊ¹âÆ×ÏìÓ¦
+    Tt = (abs(Ht))^2;                                                       % åŠŸç‡å…‰è°±å“åº”
     Td = (abs(Hd))^2;
-                                                                            % ×Ü´«Êä¾ØÕó
+                                                                            % æ€»ä¼ è¾“çŸ©é˜µ
     Through(ii) = Tt;
     Drop(ii) = Td;
 end
 
-figure(1);                                                                  % »æÍ¼
+figure(1);                                                                  % ç»˜å›¾
 box on;
 
 plot(phase_rt,10*log10(Drop),'r');
@@ -46,14 +50,14 @@ hold on;
 
 plot(phase_rt,10*log10(Through),'b');
 
-set(gca,'XTick',(-pi:pi:3*pi));                                             % ÉèÖÃx×ø±ê
-set(gca,'XtickLabel',{'-¦Ğ','0','¦Ğ','2¦Ğ','3¦Ğ'});
-xlabel('»·³ÌÏàÎ»Ê§Ğ³Á¿¦¤¦Õrt£¨rad£©');
+set(gca,'XTick',(-pi:pi:3*pi));                                             % è®¾ç½®xåæ ‡
+set(gca,'XtickLabel',{'-Ï€','0','Ï€','2Ï€','3Ï€'});
+xlabel('ç¯ç¨‹ç›¸ä½å¤±è°é‡Î”Ï†rtï¼ˆradï¼‰');
 
-%set(gca,'YTick',[-30,-25,-20,-15,-10,-5,0,]);                              % ÉèÖÃy×ø±ê
+%set(gca,'YTick',[-30,-25,-20,-15,-10,-5,0,]);                              % è®¾ç½®yåæ ‡
 %set(gca,'YtickLabel',{'-30','-25','-20','-15','-10','-5','0'});
-ylabel('´«ÊäÂÊ(dB)');
+ylabel('ä¼ è¾“ç‡(dB)');
 
-title('ADMRµÄÁÙ½çñîºÏ');                                                     % ÉèÖÃÍ¼±íÃû³Æ
-legend({'Drop Port','Through Port'},'location','north');                    % ÉèÖÃÍ¼Àı
+title('ADMRçš„ä¸´ç•Œè€¦åˆ');                                                     % è®¾ç½®å›¾è¡¨åç§°
+legend({'Drop Port','Through Port'},'location','north');                    % è®¾ç½®å›¾ä¾‹
 

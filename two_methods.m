@@ -1,6 +1,9 @@
 % Stimulation of ADMR ( we compare two methods of energy coupling and power coupling formalisms)
 % Source code by CHEN Nuo
 % 2020/10/09
+
+% 仿真结果中，蓝色线是功率耦合模中直通端的响应，红色线是功率耦合模下载端响应
+% 黄色线是时域耦合模中直通端响应，绿色线是时域耦合模中下载端响应
 % ------------------------------------------------------------------------------------------------------------------------------------------
 clear all
 clc
@@ -36,12 +39,16 @@ y2 = u2^2/2;
 t2 = sqrt(1-(k2)^2);                                                       
 
 y = y0+y1+y2;                                                               % total energy decay
+p0 = 1/(t1*t2*a);
+z0 = t1/(t2*a);
 
 % response
 Through_power = zeros(1,length(phase_rt));                                  % matrix of through port using power coupling formalism
 Drop_power = zeros(1,length(phase_rt));                                     % matrix of drop port using power coupling formalism
 Through_energy = zeros(1,length(omega));                                    % matrix of through port using energy coupling formalism
 Drop_energy = zeros(1,length(omega));                                       % matrix of drop port using energy coupling formalism
+phase_responseD = zeros(1,length(omega));
+phase_responseT = zeros(1,length(omega));
 
 for ii = 1:length(phase_rt)
 
@@ -57,31 +64,49 @@ for ii = 1:length(phase_rt)
     Tt2 = (abs(Ht2))^2;
     Td2 = (abs(Hd2))^2;
     
+    Pd = angle(Hd1);                                                        % phase responses
+    Pt = angle(Ht1);
+    
     Through_power(ii) = Tt1;
     Drop_power(ii) = Td1;
     Through_energy(ii) = Tt2;
     Drop_energy(ii) = Td2;
-    
+    phase_responseD(ii) = Pd ;
+    phase_responseT(ii) = Pt;
 end
 
-% dessin 1 power spectral response
+% dessin
 figure(1)                                                                 
 box on;
-%scatter(phase_rt,10*log10(Drop_power),'r');
 plot(phase_rt,10*log10(Drop_power),'r');
 hold on;
-%scatter(phase_rt,10*log10(Through_power),'b');
 plot(phase_rt,10*log10(Through_power),'b');
 hold on;
-plot(phase_rt,10*log10(Through_energy),'y');
+plot(phase_rt,10*log10(Through_energy),'y--');
 hold on;
-plot(phase_rt,10*log10(Drop_energy),'g');
+plot(phase_rt,10*log10(Drop_energy),'g--');
 
 set(gca,'XTick',(-pi:pi:3*pi));                                         
-set(gca,'XtickLabel',{'-��','0','��','2��','3��'});
-xlabel('Round-trip phase detuning ����rt(rad)');
+set(gca,'XtickLabel',{'-π','0','π','2π','3π'});
+xlabel('Round-trip phase detuning Δφrt (rad)');
 
 ylabel('Transmission(dB)');
 
 title('Comparing of two methods');                                          
 legend({'D power','T power','D energy','T energy'},'location','southwest');
+
+figure(2)
+box on;
+plot(phase_rt,phase_responseD);
+hold on;
+plot(phase_rt,phase_responseT);
+
+set(gca,'XTick',(-pi:pi:3*pi));                                         
+set(gca,'XtickLabel',{'-π','0','π','2π','3π'});
+xlabel('Round-trip phase detuning Δφrt (rad)');
+set(gca,'YTick',(-pi:pi/2:2*pi));                                         
+set(gca,'YtickLabel',{'-π','-0.5π','0','0.5π','π','1.5π','2π'});
+ylabel('phase responses (rad)');
+
+title('Phase Response at Through and Drop Ports');
+legend({'Drop port','Through port'},'location','north');

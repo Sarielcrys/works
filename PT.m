@@ -40,7 +40,7 @@ alpha2 = -2*log(a2)/(pi*radius);
 %%
 trans1 = zeros(length(phase_detuning),length(a2));
 
-for ii = 1:length(phase_detuning)                                           % kappa2 fixed, scanning a2 (i.e. alpha2£¬loss/gain)
+for ii = 1:length(phase_detuning)                                           % kappa2 fixed, scanning a2 (i.e. alpha2ï¼Œloss/gain)
     for jj = 1:length(a2)
         tao(jj) = (r2fixed-a2(jj)*exp(-1i*phase_detuning(ii)))/(1-a2(jj)*r2fixed*exp(-1i*phase_detuning(ii)));
         TR = power(abs((r1-a1*tao(jj)*exp(-1i*phase_detuning(ii)))/(1-a1*r1*tao(jj)*exp(-1i*phase_detuning(ii)))),2);
@@ -64,12 +64,12 @@ end
 %%
 figure(1)
 mesh(phase_detuning,a2,10*log10(trans1))
-title('Transmission spectrum as the function of gain(k2 = 1.032)')
+title('Transmission spectrum as the function of gain (k2 = 1.032)')
 colormap jet
 colorbar
 set(gca,'Xtick',(-pi/12:pi/24:pi/12))
-set(gca,'XtickLabel',{'-¦Ð/12','-¦Ð/24','0','¦Ð/24','¦Ð/12'})
-xlabel('Round-trip phase detuning ¦¤¦Õrt (rad)')
+set(gca,'XtickLabel',{'-Ï€/12','-Ï€/24','0','Ï€/24','Ï€/12'})
+xlabel('Round-trip phase detuning Î”Ï†rt (rad)')
 set(gca,'Ytick',(0.95:0.05:1.2))
 set(gca,'YtickLabel',{'0.95','1.00','1.05','1.10','1.15','1.20'})
 ylabel('Round-trip attenuation factor a2')
@@ -100,13 +100,13 @@ end
 %%
 figure(2)
 mesh(phase_detuning,k2,10*log10(trans2))
-title('Transmission spectrum as the function of ¦Ê(a2 = 1.041,loss basicly equals gain)')
+title('Transmission spectrum as the function of Îº (a2 = 1.041,loss basicly equals gain)')
 colormap jet
 colorbar
 set(gca,'Xtick',(-pi/12:pi/24:pi/12))
-set(gca,'XtickLabel',{'-¦Ð/12','-¦Ð/24','0','¦Ð/24','¦Ð/12'})
-xlabel('Round-trip phase detuning ¦¤¦Õrt (rad)')
+set(gca,'XtickLabel',{'-Ï€/12','-Ï€/24','0','Ï€/24','Ï€/12'})
+xlabel('Round-trip phase detuning Î”Ï†rt (rad)')
 set(gca,'Ytick',(0:0.05:0.2))
 set(gca,'YtickLabel',{'0','0.05','0.10','0.15','0.20'})
-ylabel('¦Ê')
+ylabel('Îº')
 zlabel('Transmission (dB)')
